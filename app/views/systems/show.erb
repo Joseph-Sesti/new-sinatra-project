@@ -1,0 +1,7 @@
+<%= @system.name %></br>
+<%= @system.release_date %></br>
+<%= @system.manufacturer %></br>
+<% @system.videogames.each do |videogame| %>
+  <%= videogame.title %>
+<% end %>
+<a href="/systems">Back to collection</a>

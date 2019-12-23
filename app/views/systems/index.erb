@@ -1,0 +1,4 @@
+<% @user.videogame_systems.each do |system| %>
+  <a href="/systems/<%=system.id%>/edit">Edit</a> <%= system.name %> </br>
+<% end %>
+<a href="/account">Return to home page</a>

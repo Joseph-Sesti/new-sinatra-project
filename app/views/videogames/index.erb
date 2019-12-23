@@ -1,0 +1,4 @@
+<% @user.videogames.each do |game| %>
+  <a href="/videogames/<%=game.id%>/edit">Edit</a> <%= game.title %> </br>
+<% end %>
+<a href="/account">Return to home page</a>

@@ -1,0 +1,25 @@
+<h1> Edit <%= @videogame.title %></h1>
+
+<form action="/videogames/<%=@videogame.id%>" method="POST">
+
+  <input id="hidden" type="hidden" name="_method" value="patch">
+
+  <label> Videogame Title </label>
+  <input type="text" name="title" value="<%=@videogame.title%>"> <br>
+
+  <label> Videogame System </label>
+  <input type="text" name="system" value="<%=@videogame.system%>"> <br>
+
+  <label> Videogame Release Date </label>
+  <input type="text" name="release_date" value="<%=@videogame.release_date%>"> <br>
+
+  <label> Videogame Publisher </label>
+  <input type="text" name="publisher" value="<%=@videogame.publisher%>"> <br>
+
+  <input type="submit" value="UPDATE">
+</form>
+<form action="/videogames/<%= @videogame.id %>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="delete">
+</form>
+<a href="/videogames">Back to collection</a>

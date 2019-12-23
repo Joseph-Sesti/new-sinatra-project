@@ -1,0 +1,22 @@
+<h1> Edit <%= @system.name %></h1>
+
+<form action="/systems/<%=@system.id %>" method="POST">
+
+  <input id="hidden" type="hidden" name="_method" value="patch">
+
+  <label> System Name </label>
+  <input type="text" name="name" value="<%=@system.name%>"> <br>
+
+  <label> Release Date </label>
+  <input type="text" name="release_date" value="<%=@system.release_date%>"> <br>
+
+  <label> Manufacturer </label>
+  <input type="text" name="manufacturer" value="<%=@system.manufacturer%>"> <br>
+
+  <input type="submit" value="UPDATE">
+</form>
+<form action="/systems/<%= @system.id %>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="delete">
+</form>
+<a href="/systems">Back to collection</a>
