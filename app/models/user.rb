@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  validates_presence_of :username, :password
+  validates :username, presence: true, uniqueness: true
+  validates :password, presence: true
   has_secure_password
   has_many :videogame_systems
   has_many :videogames

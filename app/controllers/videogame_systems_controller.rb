@@ -12,12 +12,16 @@ class VideogameSystemsController < ApplicationController
   end
 
   post '/systems/new' do
-    @system = VideogameSystem.create(:name => params[:name],
-      :release_date => params[:release_date],
-      :manufacturer => params[:manufacturer])
-      @system.user = current_user
-      @system.save
-    redirect to "/systems/#{@system.id}"
+    if params[:name] == ""
+      redirect '/systems/new'
+    else
+      @system = VideogameSystem.create(:name => params[:name],
+        :release_date => params[:release_date],
+        :manufacturer => params[:manufacturer])
+        @system.user = current_user
+        @system.save
+      redirect to "/systems/#{@system.id}"
+    end
   end
 
   get '/systems/:id' do
@@ -27,24 +31,35 @@ class VideogameSystemsController < ApplicationController
   end
 
   get '/systems/:id/edit' do
-    @user = current_user
     @system = VideogameSystem.find_by_id(params[:id])
-    erb :'systems/edit'
+    if @system.user != current_user
+      redirect '/account'
+    else
+      erb :'systems/edit'
+    end
   end
 
   patch '/systems/:id' do
     @system = VideogameSystem.find_by_id(params[:id])
-    @system.name = params[:name]
-    @system.release_date = params[:release_date]
-    @system.manufacturer = params[:manufacturer]
-    @system.user = current_user
-    @system.save
-    redirect to "/systems/#{@system.id}"
+    if @system.user != current_user
+      redirect '/systems/:id'
+    else
+      @system.name = params[:name]
+      @system.release_date = params[:release_date]
+      @system.manufacturer = params[:manufacturer]
+      @system.user = current_user
+      @system.save
+      redirect to "/systems/#{@system.id}"
+    end
   end
 
   delete '/systems/:id' do
     system = VideogameSystem.find_by_id(params[:id])
-    system.delete
-    redirect to '/systems'
+    if system.user != current_user
+      redirect '/systems/:id'
+    else
+      system.delete
+      redirect to '/systems'
+    end
   end
 end

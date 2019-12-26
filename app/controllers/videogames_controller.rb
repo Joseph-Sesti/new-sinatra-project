@@ -12,13 +12,17 @@ class VideogamesController < ApplicationController
   end
 
   post '/videogames/new' do
-    @videogame = Videogame.create(:title => params[:title],
-      :system => params[:system],
-      :publisher => params[:publisher],
-      :release_date => params[:release_date])
-      @videogame.user = current_user
-      @videogame.save
-    redirect to "/videogames/#{@videogame.id}"
+    if params[:title] == ""
+      redirect '/videogames/new'
+    else
+      @videogame = Videogame.create(:title => params[:title],
+        :system => params[:system],
+        :publisher => params[:publisher],
+        :release_date => params[:release_date])
+        @videogame.user = current_user
+        @videogame.save
+      redirect to "/videogames/#{@videogame.id}"
+    end
   end
 
   get '/videogames/:id' do
@@ -37,17 +41,25 @@ class VideogamesController < ApplicationController
 
   patch '/videogames/:id' do
     @videogame = Videogame.find_by_id(params[:id])
-    @videogame.title = params[:title]
-    @videogame.system = params[:system]
-    @videogame.publisher = params[:publisher]
-    @videogame.release_date = params[:release_date]
-    @videogame.save
-    redirect to "/videogames/#{@videogame.id}"
+    if @videogame.user != current_user || params[:title] == ""
+      redirect '/videogames/:id'
+    else
+      @videogame.title = params[:title]
+      @videogame.system = params[:system]
+      @videogame.publisher = params[:publisher]
+      @videogame.release_date = params[:release_date]
+      @videogame.save
+      redirect to "/videogames/#{@videogame.id}"
+    end
   end
 
   delete '/videogames/:id' do
     videogame = Videogame.find_by_id(params[:id])
-    videogame.delete
-    redirect to '/videogames'
+    if videogame.user != current_user
+      redirect '/videogames/:id'
+    else
+      videogame.delete
+      redirect to '/videogames'
+    end
   end
 end
