@@ -62,4 +62,13 @@ class VideogamesController < ApplicationController
       redirect to '/videogames'
     end
   end
+
+  get '/search/:title' do
+    @videogame = Videogame.find_by(title: params[:title])
+    if @videogame
+      redirect to "/videogames/#{@videogame.id}"
+    else
+      'Title not found.'
+    end
+  end
 end
